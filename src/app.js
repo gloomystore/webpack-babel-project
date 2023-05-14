@@ -10,6 +10,6 @@ console.log(
 )(function () {})();
 
 var foo = "";
-console.log(1);
+console.log(1); 
 // npm i -D prettier
 // npm i -D eslint-config-prettier -> 통합
