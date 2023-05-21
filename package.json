@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "lint": "eslint --fix"
+    "lint": "eslint --fix",
+    "start": "webpack-dev-server --progress"
   },
   "author": "",
   "license": "ISC",
@@ -17,29 +18,39 @@
     "@babel/preset-env": "^7.21.5",
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
+    "connect-api-mocker": "^1.10.0",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "html-webpack-plugin": "^5.5.1",
-    "husky": "^8.0.3",
+    "husky": "^4.3.8",
+    "lint-staged": "^13.2.2",
     "mini-css-extract-plugin": "^2.7.5",
     "prettier": "^2.8.8",
-    "webpack": "^5.82.0",
-    "webpack-cli": "^5.0.2",
+    "webpack": "^5.83.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0",
     "webpack-shell-plugin-next": "^2.3.1"
   },
   "dependencies": {
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.21.8",
+    "axios": "^1.4.0",
+    "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.30.2",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2",
     "url-loader": "^4.1.1"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo \"이것은 커밋전에 출력됨\""
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix"
   }
 }
