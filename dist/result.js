@@ -1,0 +1,2 @@
+/*! For license information please see result.js.LICENSE.txt */
+"use strict";(self.webpackChunkkim_webpack=self.webpackChunkkim_webpack||[]).push([[68],{812:(a,e,i)=>{i.r(e),i.d(e,{default:()=>n});var s=i(467),k=i.n(s);const n={render:async()=>((await k().get("/api/users")).data||[]).map((a=>`<div>${a.id}: ${a.name}</div>`)).join("---")}}}]);

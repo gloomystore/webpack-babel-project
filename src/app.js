@@ -1,7 +1,6 @@
 import nyancat from "./nyancat.jpg";
 import form from './form';
 import result from './result';
-
 import MainController from "./controllers/MainController.js";
 import "./app.scss";
 
@@ -18,6 +17,14 @@ window.addEventListener("DOMContentLoaded", async() => {
   resultEl = document.createElement('div')
   resultEl.innerHTML = await result.render();
   document.body.appendChild(resultEl)
+  // import(/* webpackChunkName: "result" */'./result').then(async(m)=> {
+  //   resultEl = document.createElement('div')
+  //   resultEl.innerHTML = await result.render();
+  //   document.body.appendChild(resultEl)// 이런식으로 entry 파일을 하나 더 추가할 수 있음
+
+  // }); 
+
+ 
 
 
   new MainController();
@@ -41,7 +48,7 @@ if(module.hot){
 // )(function () {})();
 
 // var foo = "";
-console.log(1);
+console.log(1111111);
 
 
 

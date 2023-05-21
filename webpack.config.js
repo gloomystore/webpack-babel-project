@@ -6,9 +6,15 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const apiMocker = require('connect-api-mocker')
+const apiMocker = require('connect-api-mocker');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
+const mode = process.env.NODE_ENV || 'development'
+console.log(mode)
 // 윈도우 터미널 실행법:  $env:NODE_ENV = "development"; npm run build
 module.exports = {
+  mode,
   devServer: {
     static:{
       directory:path.join(__dirname, "dist"), //정적파일을 제공할 경로. 기본값은 웹팩 아웃풋이다.
@@ -71,9 +77,25 @@ module.exports = {
       index: "/index.html"
     },//히스토리 API를 사용하는 SPA 개발시 설정한다. 404가 발생하면 index.html로 리다이렉트한다.
   },
-  mode: 'development',
+  optimization:{
+    minimizer: mode === 'production' ? [new CssMinimizerPlugin(), // css를 완전히 minify 해버림
+      new TerserPlugin({ //js를 minify, 난독화
+      terserOptions: {
+        compress: {
+          drop_console: true, // 콘솔 로그를 제거한다
+        },
+      },
+    }),] : [],
+    splitChunks: {
+      chunks:'all', // 중복코드 제거 - code split이 목적. 파일이 나뉘면 다운로드가 나아짐.
+    }
+  },
+  externals: {
+    axios: 'axios' // axios를 빌드과정에서 뺀다. 아래 copywebpack에서 파일을 빼내서, 전역변수처럼 사용한다.
+  },
   entry:{ //시작점 경로를 지정하는 옵션이다
-    main: './src/app.js'
+    main: './src/app.js',
+    // result: './src/result.js',
   },
   output: { //번들링 결과물을 위치할 경로다
     path: path.resolve('./dist'),
@@ -157,6 +179,7 @@ module.exports = {
       new CopyWebpackPlugin({
         patterns: [
           { from: 'src/favicon.ico', to: 'favicon.ico' },
+          { from: './node_modules/axios/dist/axios.min.js', to: 'axios.min.js' },
         ],
       }),
   ],
